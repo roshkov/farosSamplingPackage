@@ -11,8 +11,7 @@ part of carp_movisens_package;
 class MovisensDatum extends Datum {
   @JsonKey(ignore: true)
   @override
-  DataFormat get format =>
-      DataFormat.fromString(MovisensSamplingPackage.MOVISENS);
+  DataFormat get format => DataFormat.fromString(FarosSamplingPackage.FAROS);
 
   /// The timestamp from the Movisens device.
   String? movisensTimestamp;
@@ -93,7 +92,7 @@ class MovisensDatum extends Datum {
 class MovisensMETLevelDatum extends MovisensDatum {
   @override
   DataFormat get format =>
-      DataFormat.fromString(MovisensSamplingPackage.MET_LEVEL);
+      DataFormat.fromString(FarosSamplingPackage.MET_LEVEL);
 
   String? sedentary;
   String? light;
@@ -122,7 +121,7 @@ class MovisensMETLevelDatum extends MovisensDatum {
 class MovisensMovementAccelerationDatum extends MovisensDatum {
   @override
   DataFormat get format =>
-      DataFormat.fromString(MovisensSamplingPackage.MOVEMENT_ACCELERATION);
+      DataFormat.fromString(FarosSamplingPackage.MOVEMENT_ACCELERATION);
 
   String? movementAcceleration;
 
@@ -146,7 +145,7 @@ class MovisensMovementAccelerationDatum extends MovisensDatum {
 class MovisensTapMarkerDatum extends MovisensDatum {
   @override
   DataFormat get format =>
-      DataFormat.fromString(MovisensSamplingPackage.TAP_MARKER);
+      DataFormat.fromString(FarosSamplingPackage.TAP_MARKER);
 
   String? tapMarker;
 
@@ -168,7 +167,7 @@ class MovisensTapMarkerDatum extends MovisensDatum {
 class MovisensBatteryLevelDatum extends MovisensDatum {
   @override
   DataFormat get format =>
-      DataFormat.fromString(MovisensSamplingPackage.BATTERY_LEVEL);
+      DataFormat.fromString(FarosSamplingPackage.BATTERY_LEVEL);
 
   String? batteryLevel;
 
@@ -190,7 +189,7 @@ class MovisensBatteryLevelDatum extends MovisensDatum {
 class MovisensBodyPositionDatum extends MovisensDatum {
   @override
   DataFormat get format =>
-      DataFormat.fromString(MovisensSamplingPackage.BODY_POSITION);
+      DataFormat.fromString(FarosSamplingPackage.BODY_POSITION);
 
   String? bodyPosition;
 
@@ -210,7 +209,7 @@ class MovisensBodyPositionDatum extends MovisensDatum {
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class MovisensMETDatum extends MovisensDatum {
   @override
-  DataFormat get format => DataFormat.fromString(MovisensSamplingPackage.MET);
+  DataFormat get format => DataFormat.fromString(FarosSamplingPackage.MET);
 
   String? met;
 
@@ -231,7 +230,7 @@ class MovisensMETDatum extends MovisensDatum {
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class MovisensHRDatum extends MovisensDatum {
   @override
-  DataFormat get format => DataFormat.fromString(MovisensSamplingPackage.HR);
+  DataFormat get format => DataFormat.fromString(FarosSamplingPackage.HR);
 
   /// Heart Rate (HR) in beats pr. minute (BPM).
   String? hr;
@@ -253,7 +252,7 @@ class MovisensHRDatum extends MovisensDatum {
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
 class MovisensHRVDatum extends MovisensDatum {
   @override
-  DataFormat get format => DataFormat.fromString(MovisensSamplingPackage.HRV);
+  DataFormat get format => DataFormat.fromString(FarosSamplingPackage.HRV);
 
   String? hrv;
 
@@ -274,7 +273,7 @@ class MovisensHRVDatum extends MovisensDatum {
 class MovisensIsHrvValidDatum extends MovisensDatum {
   @override
   DataFormat get format =>
-      DataFormat.fromString(MovisensSamplingPackage.IS_HRV_VALID);
+      DataFormat.fromString(FarosSamplingPackage.IS_HRV_VALID);
 
   String? isHrvValid;
 
@@ -296,7 +295,7 @@ class MovisensIsHrvValidDatum extends MovisensDatum {
 class MovisensStepCountDatum extends MovisensDatum {
   @override
   DataFormat get format =>
-      DataFormat.fromString(MovisensSamplingPackage.STEP_COUNT);
+      DataFormat.fromString(FarosSamplingPackage.STEP_COUNT);
 
   String? stepCount;
 
@@ -317,7 +316,7 @@ class MovisensStepCountDatum extends MovisensDatum {
 class MovisensConnectionStatusDatum extends MovisensDatum {
   @override
   DataFormat get format =>
-      DataFormat.fromString(MovisensSamplingPackage.CONNECTION_STATUS);
+      DataFormat.fromString(FarosSamplingPackage.CONNECTION_STATUS);
 
   String? connectionStatus;
 

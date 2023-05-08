@@ -9,8 +9,8 @@ part of carp_movisens_package;
 /// A probe collecting data from the Movisens device using a [StreamProbe].
 class MovisensProbe extends StreamProbe {
   @override
-  MovisensDeviceManager get deviceManager =>
-      super.deviceManager as MovisensDeviceManager;
+  FarosDeviceManager get deviceManager =>
+      super.deviceManager as FarosDeviceManager;
 
   @override
   Stream<MovisensDatum> get stream async* {

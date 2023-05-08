@@ -326,8 +326,7 @@ Map<String, dynamic> _$MovisensConnectionStatusDatumToJson(
   return val;
 }
 
-MovisensDevice _$MovisensDeviceFromJson(Map<String, dynamic> json) =>
-    MovisensDevice(
+FarosDevice _$MovisensDeviceFromJson(Map<String, dynamic> json) => FarosDevice(
       roleName: json['roleName'] as String?,
       address: json['address'] as String,
       sensorName: json['sensorName'] as String,
@@ -351,7 +350,7 @@ MovisensDevice _$MovisensDeviceFromJson(Map<String, dynamic> json) =>
             k, SamplingConfiguration.fromJson(e as Map<String, dynamic>)),
       );
 
-Map<String, dynamic> _$MovisensDeviceToJson(MovisensDevice instance) {
+Map<String, dynamic> _$MovisensDeviceToJson(FarosDevice instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

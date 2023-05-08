@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:movisens_flutter/movisens_flutter.dart';
-import 'package:carp_movisens_package/carp_movisens_package.dart';
+import 'package:carp_movisens_package/carp_faros_package.dart';
 import 'package:test/test.dart';
 
 import 'package:carp_serializable/carp_serializable.dart';
@@ -20,7 +20,7 @@ void main() {
     CarpMobileSensing();
 
     // register the context sampling package
-    SamplingPackageRegistry().register(MovisensSamplingPackage());
+    SamplingPackageRegistry().register(FarosSamplingPackage());
 
     // create a new study protocol
     protocol = StudyProtocol(
@@ -30,7 +30,7 @@ void main() {
 
     // define the Movisens device used for data collection
     phone = Smartphone();
-    MovisensDevice movisens = MovisensDevice(
+    FarosDevice movisens = FarosDevice(
       address: '88:6B:0F:CD:E7:F2',
       sensorLocation: SensorLocation.chest,
       gender: Gender.male,
@@ -58,8 +58,7 @@ void main() {
     // add a background task that immediately starts collecting Movisens events
     protocol.addTriggeredTask(
         ImmediateTrigger(),
-        BackgroundTask()
-          ..addMeasure(Measure(type: MovisensSamplingPackage.MOVISENS)),
+        BackgroundTask()..addMeasure(Measure(type: FarosSamplingPackage.FAROS)),
         movisens);
   });
 
@@ -88,8 +87,8 @@ void main() {
 
     expect(protocol.ownerId, 'alex@uni.dk');
     expect(protocol.masterDevices.first.roleName, Smartphone.DEFAULT_ROLENAME);
-    expect(protocol.connectedDevices.first.roleName,
-        MovisensDevice.DEFAULT_ROLENAME);
+    expect(
+        protocol.connectedDevices.first.roleName, FarosDevice.DEFAULT_ROLENAME);
 
     print(toJsonString(protocol));
   });
@@ -101,7 +100,7 @@ void main() {
 
     DataPoint dp_1 = DataPoint.fromData(hr);
     expect(dp_1.carpHeader.dataFormat.namespace,
-        MovisensSamplingPackage.MOVISENS_NAMESPACE);
+        FarosSamplingPackage.FAROS_NAMESPACE);
     print(toJsonString(dp_1));
 
     OMHHeartRateDataPoint omhHR = TransformerSchemaRegistry()
@@ -125,7 +124,7 @@ void main() {
 
     DataPoint dp_1 = DataPoint.fromData(steps);
     expect(dp_1.carpHeader.dataFormat.namespace,
-        MovisensSamplingPackage.MOVISENS_NAMESPACE);
+        FarosSamplingPackage.FAROS_NAMESPACE);
     print(toJsonString(dp_1));
 
     OMHStepCountDataPoint omhSteps = TransformerSchemaRegistry()
@@ -147,7 +146,7 @@ void main() {
 
     DataPoint dp_1 = DataPoint.fromData(hr);
     expect(dp_1.carpHeader.dataFormat.namespace,
-        MovisensSamplingPackage.MOVISENS_NAMESPACE);
+        FarosSamplingPackage.FAROS_NAMESPACE);
     print(toJsonString(dp_1));
 
     FHIRHeartRateObservation fhirHR = TransformerSchemaRegistry()

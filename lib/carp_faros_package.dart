@@ -45,33 +45,26 @@ part 'movisens_device_manager.dart';
 /// ```
 ///   SamplingPackageRegistry.register(MovisensSamplingPackage());
 /// ```
-class MovisensSamplingPackage implements SamplingPackage {
+class FarosSamplingPackage implements SamplingPackage {
   /// Measure type for continous collection of Movisens data from a Movisens device.
   ///  * Event-based measure.
-  ///  * Uses the [MovisensDevice] connected device for data collection.
+  ///  * Uses the [FarosDevice] connected device for data collection.
   ///  * No sampling configuration needed.
-  static const String MOVISENS = "${NameSpace.CARP}.movisens";
+  static const String FAROS = "${NameSpace.CARP}.faros";
 
-  static const String MOVISENS_NAMESPACE = "${NameSpace.CARP}.movisens";
-  static const String MET_LEVEL = "$MOVISENS_NAMESPACE.met_level";
-  static const String MET = "$MOVISENS_NAMESPACE.met";
-  static const String HR = "$MOVISENS_NAMESPACE.hr";
-  static const String HRV = "$MOVISENS_NAMESPACE.hrv";
-  static const String IS_HRV_VALID = "$MOVISENS_NAMESPACE.is_hrv_valid";
-  static const String BODY_POSITION = "$MOVISENS_NAMESPACE.body_position";
-  static const String STEP_COUNT = "$MOVISENS_NAMESPACE.step_count";
-  static const String MOVEMENT_ACCELERATION =
-      "$MOVISENS_NAMESPACE.movement_acceleration";
-  static const String TAP_MARKER = "$MOVISENS_NAMESPACE.tap_marker";
-  static const String BATTERY_LEVEL = "$MOVISENS_NAMESPACE.battery_level";
-  static const String CONNECTION_STATUS =
-      "$MOVISENS_NAMESPACE.connection_status";
+  static const String FAROS_NAMESPACE = "${NameSpace.CARP}.faros";
+  static const String HR = "$FAROS_NAMESPACE.hr";
+  static const String HRV = "$FAROS_NAMESPACE.hrv";
+  static const String IS_HRV_VALID = "$FAROS_NAMESPACE.is_hrv_valid";
+  static const String BATTERY_LEVEL = "$FAROS_NAMESPACE.battery_level";
+  static const String CONNECTION_STATUS = "$FAROS_NAMESPACE.connection_status";
 
-  final DeviceManager _deviceManager = MovisensDeviceManager();
+  final DeviceManager _deviceManager = FarosDeviceManager();
 
   @override
   void onRegister() {
-    FromJsonFactory().register(MovisensDevice(address: '', sensorName: ''));
+    FromJsonFactory().register(FarosDevice(
+        address: '', sensorName: '')); //by default is empty address, but why?
 
     // registering the transformers from CARP to OMH and FHIR for heart rate and step count.
     // we assume that there are OMH and FHIR schemas created and registrered already...
@@ -79,18 +72,10 @@ class MovisensSamplingPackage implements SamplingPackage {
           HR,
           OMHHeartRateDataPoint.transformer,
         );
-    TransformerSchemaRegistry().lookup(NameSpace.OMH)!.add(
-          STEP_COUNT,
-          OMHStepCountDataPoint.transformer,
-        );
-    TransformerSchemaRegistry().lookup(NameSpace.FHIR)!.add(
-          HR,
-          FHIRHeartRateObservation.transformer,
-        );
   }
 
   @override
-  String get deviceType => MovisensDevice.DEVICE_TYPE;
+  String get deviceType => FarosDevice.DEVICE_TYPE;
 
   @override
   DeviceManager get deviceManager => _deviceManager;
@@ -101,13 +86,13 @@ class MovisensSamplingPackage implements SamplingPackage {
   /// Create a [MovisensProbe]. Only available on Android.
   @override
   Probe? create(String type) => (Platform.isAndroid)
-      ? (type == MOVISENS)
+      ? (type == FAROS)
           ? MovisensProbe()
           : null
       : null;
 
   @override
-  List<String> get dataTypes => [MOVISENS];
+  List<String> get dataTypes => [FAROS];
 
   @override
   SamplingSchema get samplingSchema => SamplingSchema();
