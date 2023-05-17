@@ -1,3 +1,23 @@
+// class FarosDataObject {
+//   Map<String, List<int>>? data;
+//   String? dataType;
+//   FarosDataObject({required this.data, required this.dataType});
+//   factory FarosDataObject.fromMap(Map<Object?, Object?> map) {
+//     var data = map['data'] as Map;
+
+//     var castedData = data.map((key, value) {
+//       var list = value as List;
+//       var castedList = list.cast<int>();
+//       return MapEntry(key as String, castedList);
+//     });
+
+//     return FarosDataObject(
+//       data: castedData,
+//       dataType: map['dataType'] as String,
+//     );
+//   }
+// }
+
 /*
  * Copyright 2019-2022 Copenhagen Center for Health Technology (CACHET) at the
  * Technical University of Denmark (DTU).
@@ -21,59 +41,36 @@ class MovisensDatum extends Datum {
 
   MovisensDatum() : super();
 
-  factory MovisensDatum.fromMap(
-    Map<String, dynamic> map, [
-    String? deviceName,
-  ]) {
+  factory MovisensDatum.fromMap(Map<Object?, Object?> map) {
+    var data = map['data'] as Map;
+    var dataType = map['dataType'] as String;
+
     MovisensDatum datum = MovisensDatum();
 
-    if (map.containsKey("MetLevel")) {
-      datum = MovisensMETLevelDatum.fromMap(map["MetLevel"].toString());
+    if (dataType == 'ecg') {
+      datum = FarosEcgDatum.fromMap(data.toString());
     }
-    if (map.containsKey("Met")) {
-      datum = MovisensMETDatum.fromMap(map["Met"].toString());
+
+    if (dataType == 'accelometer') {
+      datum = FarosAccelometerDatum.fromMap(data);
     }
-    if (map.containsKey("HR")) {
-      datum = MovisensHRDatum.fromMap(map["HR"].toString());
-    }
-    if (map.containsKey("HRV")) {
-      datum = MovisensHRVDatum.fromMap(map["HRV"].toString());
-    }
-    if (map.containsKey("IsHrvValid")) {
-      datum = MovisensIsHrvValidDatum.fromMap(map["IsHrvValid"].toString());
-    }
-    if (map.containsKey("BodyPosition")) {
-      datum = MovisensBodyPositionDatum.fromMap(map["BodyPosition"].toString());
-    }
-    if (map.containsKey("StepCount")) {
-      datum = MovisensStepCountDatum.fromMap(map["StepCount"].toString());
-    }
-    if (map.containsKey("MovementAcceleration")) {
-      datum = MovisensMovementAccelerationDatum.fromMap(
-          map["MovementAcceleration"].toString());
-    }
-    if (map.containsKey("TapMarker")) {
-      datum = MovisensTapMarkerDatum.fromMap(map["TapMarker"].toString());
-    }
-    if (map.containsKey("BatteryLevel")) {
-      datum = MovisensBatteryLevelDatum.fromMap(map["BatteryLevel"].toString());
-    }
-    if (map.containsKey("ConnectionStatus")) {
-      datum = MovisensConnectionStatusDatum.fromMap(
-          map["ConnectionStatus"].toString());
-    }
+
+    // if (map.containsKey("MovementAcceleration")) {
+    //   datum = MovisensMovementAccelerationDatum.fromMap(
+    //       map["MovementAcceleration"].toString());
+    // }
 
     datum.movisensTimestamp =
         _movisensTimestampToUTC(map['timestamp'].toString());
-    datum.movisensDeviceName = deviceName;
+    datum.movisensDeviceName = 'Faros 360';
 
     return datum;
   }
 
-  /// Make a Movisens timestamp into UTC format
   static String _movisensTimestampToUTC(String timestamp) {
-    List<String> splittedTimestamp = timestamp.split(" ");
-    return "${splittedTimestamp[0]}T${splittedTimestamp[1]}.000Z";
+    // List<String> splittedTimestamp = timestamp.split(" ");
+    // return "${splittedTimestamp[0]}T${splittedTimestamp[1]}.000Z";
+    return "2023-05-17T10:30:00.000Z";
   }
 
   factory MovisensDatum.fromJson(Map<String, dynamic> json) =>
@@ -83,252 +80,91 @@ class MovisensDatum extends Datum {
   Map<String, dynamic> toJson() => _$MovisensDatumToJson(this);
 }
 
-/// Movisens Metabolic (MET) level. MET levels are:
-///   * sedentary
-///   * light
-///   * moderate
-///   * vigorous
+// @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+// class MovisensBodyPositionDatum extends MovisensDatum {
+//   @override
+//   DataFormat get format =>
+//       DataFormat.fromString(FarosSamplingPackage.BODY_POSITION);
+
+//   String? bodyPosition;
+
+//   MovisensBodyPositionDatum() : super();
+
+//   MovisensBodyPositionDatum.fromMap(String value) {
+//     final map = jsonDecode(value);
+//     bodyPosition = map['body_position'].toString();
+//   }
+
+//   factory MovisensBodyPositionDatum.fromJson(Map<String, dynamic> json) =>
+//       _$MovisensBodyPositionDatumFromJson(json);
+//   @override
+//   Map<String, dynamic> toJson() => _$MovisensBodyPositionDatumToJson(this);
+// }
+
+// ecg
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class MovisensMETLevelDatum extends MovisensDatum {
+class FarosEcgDatum extends MovisensDatum {
   @override
-  DataFormat get format =>
-      DataFormat.fromString(FarosSamplingPackage.MET_LEVEL);
-
-  String? sedentary;
-  String? light;
-  String? moderate;
-  String? vigorous;
-
-  MovisensMETLevelDatum() : super();
-
-  MovisensMETLevelDatum.fromMap(String value) {
-    final map = jsonDecode(value);
-
-    sedentary = map['sedentary'].toString();
-    light = map['light'].toString();
-    moderate = map['moderate'].toString();
-    vigorous = map['vigorous'].toString();
-  }
-
-  factory MovisensMETLevelDatum.fromJson(Map<String, dynamic> json) =>
-      _$MovisensMETLevelDatumFromJson(json);
-  @override
-  Map<String, dynamic> toJson() => _$MovisensMETLevelDatumToJson(this);
-}
-
-/// Movisens movement (accelerometer) reading.
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class MovisensMovementAccelerationDatum extends MovisensDatum {
-  @override
-  DataFormat get format =>
-      DataFormat.fromString(FarosSamplingPackage.MOVEMENT_ACCELERATION);
-
-  String? movementAcceleration;
-
-  MovisensMovementAccelerationDatum() : super();
-
-  MovisensMovementAccelerationDatum.fromMap(String value) {
-    final map = jsonDecode(value);
-    movementAcceleration = map['movement_acceleration'].toString();
-  }
-
-  factory MovisensMovementAccelerationDatum.fromJson(
-          Map<String, dynamic> json) =>
-      _$MovisensMovementAccelerationDatumFromJson(json);
-  @override
-  Map<String, dynamic> toJson() =>
-      _$MovisensMovementAccelerationDatumToJson(this);
-}
-
-/// Representing a tap marker event from a user tap on the Movisens device.
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class MovisensTapMarkerDatum extends MovisensDatum {
-  @override
-  DataFormat get format =>
-      DataFormat.fromString(FarosSamplingPackage.TAP_MARKER);
-
-  String? tapMarker;
-
-  MovisensTapMarkerDatum() : super();
-
-  MovisensTapMarkerDatum.fromMap(String value) {
-    final map = jsonDecode(value);
-    tapMarker = map['tap_marker'].toString();
-  }
-
-  factory MovisensTapMarkerDatum.fromJson(Map<String, dynamic> json) =>
-      _$MovisensTapMarkerDatumFromJson(json);
-  @override
-  Map<String, dynamic> toJson() => _$MovisensTapMarkerDatumToJson(this);
-}
-
-/// The battery level of the Movisens device.
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class MovisensBatteryLevelDatum extends MovisensDatum {
-  @override
-  DataFormat get format =>
-      DataFormat.fromString(FarosSamplingPackage.BATTERY_LEVEL);
-
-  String? batteryLevel;
-
-  MovisensBatteryLevelDatum() : super();
-
-  MovisensBatteryLevelDatum.fromMap(String value) {
-    final map = jsonDecode(value);
-    batteryLevel = map['battery_level'].toString();
-  }
-
-  factory MovisensBatteryLevelDatum.fromJson(Map<String, dynamic> json) =>
-      _$MovisensBatteryLevelDatumFromJson(json);
-  @override
-  Map<String, dynamic> toJson() => _$MovisensBatteryLevelDatumToJson(this);
-}
-
-/// The body position of the person wearing the device.
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class MovisensBodyPositionDatum extends MovisensDatum {
-  @override
-  DataFormat get format =>
-      DataFormat.fromString(FarosSamplingPackage.BODY_POSITION);
-
-  String? bodyPosition;
-
-  MovisensBodyPositionDatum() : super();
-
-  MovisensBodyPositionDatum.fromMap(String value) {
-    final map = jsonDecode(value);
-    bodyPosition = map['body_position'].toString();
-  }
-
-  factory MovisensBodyPositionDatum.fromJson(Map<String, dynamic> json) =>
-      _$MovisensBodyPositionDatumFromJson(json);
-  @override
-  Map<String, dynamic> toJson() => _$MovisensBodyPositionDatumToJson(this);
-}
-
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class MovisensMETDatum extends MovisensDatum {
-  @override
-  DataFormat get format => DataFormat.fromString(FarosSamplingPackage.MET);
-
-  String? met;
-
-  MovisensMETDatum() : super();
-
-  MovisensMETDatum.fromMap(String value) {
-    final map = jsonDecode(value);
-    met = map['met'].toString();
-  }
-
-  factory MovisensMETDatum.fromJson(Map<String, dynamic> json) =>
-      _$MovisensMETDatumFromJson(json);
-  @override
-  Map<String, dynamic> toJson() => _$MovisensMETDatumToJson(this);
-}
-
-/// Heart Rate (HR) in beats pr. minute (BPM).
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class MovisensHRDatum extends MovisensDatum {
-  @override
-  DataFormat get format => DataFormat.fromString(FarosSamplingPackage.HR);
+  DataFormat get format => DataFormat.fromString(FarosSamplingPackage.ECG);
 
   /// Heart Rate (HR) in beats pr. minute (BPM).
-  String? hr;
+  // String? hr;
 
-  MovisensHRDatum() : super();
+  List<int>? data;
+  String? dataType;
 
-  MovisensHRDatum.fromMap(String value) {
-    final map = jsonDecode(value);
-    hr = map['hr'].toString();
+  FarosEcgDatum() : super();
+
+  FarosEcgDatum.fromMap(String value) {
+    final data = jsonDecode(value);
+
+    var castedData = data.map((key, value) {
+      var list = value as List;
+      var castedList = list.cast<int>();
+      return MapEntry(key as String, castedList);
+    });
   }
+  // factory FarosEcgDatum.fromMap(Map<Object?, Object?> map) {
+  //   var data = map['data'] as Map;
 
-  factory MovisensHRDatum.fromJson(Map<String, dynamic> json) =>
-      _$MovisensHRDatumFromJson(json);
+  //   var castedData = data.map((key, value) {
+  //     var list = value as List;
+  //     var castedList = list.cast<int>();
+  //     return MapEntry(key as String, castedList);
+  //   });
+  // }
+
+  factory FarosEcgDatum.fromJson(Map<String, dynamic> json) =>
+      _$FarosEcgDatumFromJson(json);
   @override
-  Map<String, dynamic> toJson() => _$MovisensHRDatumToJson(this);
+  Map<String, dynamic> toJson() => _$FarosEcgDatumToJson(this);
 }
 
-/// Heart rate variability (HRV).
+// accelometer
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class MovisensHRVDatum extends MovisensDatum {
-  @override
-  DataFormat get format => DataFormat.fromString(FarosSamplingPackage.HRV);
-
-  String? hrv;
-
-  MovisensHRVDatum() : super();
-
-  MovisensHRVDatum.fromMap(String value) {
-    final map = jsonDecode(value);
-    hrv = map['hrv'].toString();
-  }
-
-  factory MovisensHRVDatum.fromJson(Map<String, dynamic> json) =>
-      _$MovisensHRVDatumFromJson(json);
-  @override
-  Map<String, dynamic> toJson() => _$MovisensHRVDatumToJson(this);
-}
-
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class MovisensIsHrvValidDatum extends MovisensDatum {
+class FarosAccelometerDatum extends MovisensDatum {
   @override
   DataFormat get format =>
-      DataFormat.fromString(FarosSamplingPackage.IS_HRV_VALID);
+      DataFormat.fromString(FarosSamplingPackage.ACCELOMETER);
 
-  String? isHrvValid;
+  List<int>? data;
+  String? dataType;
 
-  MovisensIsHrvValidDatum() : super();
+  FarosAccelometerDatum() : super();
 
-  MovisensIsHrvValidDatum.fromMap(String value) {
-    final map = jsonDecode(value);
-    isHrvValid = map['is_hrv_valid'].toString();
+  FarosAccelometerDatum.fromMap(Map<Object?, Object?> map) {
+    //final data = jsonDecode(value);
+    var data = map['data'] as Map;
+    dataType = map['dataType'] as String;
+    var castedData = data.map((key, value) {
+      var list = value as List;
+      var castedList = list.cast<int>();
+      return MapEntry(key as String, castedList);
+    });
   }
 
-  factory MovisensIsHrvValidDatum.fromJson(Map<String, dynamic> json) =>
-      _$MovisensIsHrvValidDatumFromJson(json);
+  factory FarosAccelometerDatum.fromJson(Map<String, dynamic> json) =>
+      _$FarosAccelometerDatumFromJson(json);
   @override
-  Map<String, dynamic> toJson() => _$MovisensIsHrvValidDatumToJson(this);
-}
-
-/// Step counts as measured by the Movisens device.
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class MovisensStepCountDatum extends MovisensDatum {
-  @override
-  DataFormat get format =>
-      DataFormat.fromString(FarosSamplingPackage.STEP_COUNT);
-
-  String? stepCount;
-
-  MovisensStepCountDatum() : super();
-
-  MovisensStepCountDatum.fromMap(String value) {
-    final map = jsonDecode(value);
-    stepCount = map['step_count'].toString();
-  }
-  factory MovisensStepCountDatum.fromJson(Map<String, dynamic> json) =>
-      _$MovisensStepCountDatumFromJson(json);
-  @override
-  Map<String, dynamic> toJson() => _$MovisensStepCountDatumToJson(this);
-}
-
-/// Connectivity status of the Movisens device.
-@JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class MovisensConnectionStatusDatum extends MovisensDatum {
-  @override
-  DataFormat get format =>
-      DataFormat.fromString(FarosSamplingPackage.CONNECTION_STATUS);
-
-  String? connectionStatus;
-
-  MovisensConnectionStatusDatum() : super();
-
-  MovisensConnectionStatusDatum.fromMap(String value) {
-    final map = jsonDecode(value);
-    connectionStatus = map['connection_status'].toString();
-  }
-
-  factory MovisensConnectionStatusDatum.fromJson(Map<String, dynamic> json) =>
-      _$MovisensConnectionStatusDatumFromJson(json);
-  @override
-  Map<String, dynamic> toJson() => _$MovisensConnectionStatusDatumToJson(this);
+  Map<String, dynamic> toJson() => _$FarosAccelometerDatumToJson(this);
 }

@@ -33,8 +33,10 @@ import 'package:carp_core/carp_core.dart';
 import 'package:carp_mobile_sensing/carp_mobile_sensing.dart';
 
 part 'movisens_datum.dart';
+//part 'faros_data_object.dart';
 part 'movisens_probe.dart';
 part "carp_movisens_package.g.dart";
+part "carp_faros_package.g.dart";
 part 'movisens_transformers.dart';
 part 'movisens_device_manager.dart';
 
@@ -58,6 +60,8 @@ class FarosSamplingPackage implements SamplingPackage {
   static const String IS_HRV_VALID = "$FAROS_NAMESPACE.is_hrv_valid";
   static const String BATTERY_LEVEL = "$FAROS_NAMESPACE.battery_level";
   static const String CONNECTION_STATUS = "$FAROS_NAMESPACE.connection_status";
+  static const String ECG = "$FAROS_NAMESPACE.ecg";
+  static const String ACCELOMETER = "$FAROS_NAMESPACE.accelometer";
 
   final DeviceManager _deviceManager = FarosDeviceManager();
 
