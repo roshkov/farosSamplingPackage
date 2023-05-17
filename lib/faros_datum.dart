@@ -28,7 +28,7 @@ part of carp_movisens_package;
 
 /// An abstract Datum for all Movisens data points.
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class MovisensDatum extends Datum {
+class FarosDatum extends Datum {
   @JsonKey(ignore: true)
   @override
   DataFormat get format => DataFormat.fromString(FarosSamplingPackage.FAROS);
@@ -39,13 +39,13 @@ class MovisensDatum extends Datum {
   /// The device name of the Movisens device that collected this datum.
   String? movisensDeviceName;
 
-  MovisensDatum() : super();
+  FarosDatum() : super();
 
-  factory MovisensDatum.fromMap(Map<Object?, Object?> map) {
+  factory FarosDatum.fromMap(Map<Object?, Object?> map) {
     var data = map['data'] as Map;
     var dataType = map['dataType'] as String;
 
-    MovisensDatum datum = MovisensDatum();
+    FarosDatum datum = FarosDatum();
 
     if (dataType == 'ecg') {
       datum = FarosEcgDatum.fromMap(data.toString());
@@ -73,15 +73,15 @@ class MovisensDatum extends Datum {
     return "2023-05-17T10:30:00.000Z";
   }
 
-  factory MovisensDatum.fromJson(Map<String, dynamic> json) =>
-      _$MovisensDatumFromJson(json);
+  factory FarosDatum.fromJson(Map<String, dynamic> json) =>
+      _$FarosDatumFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$MovisensDatumToJson(this);
+  Map<String, dynamic> toJson() => _$FarosDatumToJson(this);
 }
 
 // @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-// class MovisensBodyPositionDatum extends MovisensDatum {
+// class MovisensBodyPositionDatum extends FarosDatum {
 //   @override
 //   DataFormat get format =>
 //       DataFormat.fromString(FarosSamplingPackage.BODY_POSITION);
@@ -103,7 +103,7 @@ class MovisensDatum extends Datum {
 
 // ecg
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class FarosEcgDatum extends MovisensDatum {
+class FarosEcgDatum extends FarosDatum {
   @override
   DataFormat get format => DataFormat.fromString(FarosSamplingPackage.ECG);
 
@@ -142,7 +142,7 @@ class FarosEcgDatum extends MovisensDatum {
 
 // accelometer
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class FarosAccelometerDatum extends MovisensDatum {
+class FarosAccelometerDatum extends FarosDatum {
   @override
   DataFormat get format =>
       DataFormat.fromString(FarosSamplingPackage.ACCELOMETER);

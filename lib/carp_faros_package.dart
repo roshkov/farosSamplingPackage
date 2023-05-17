@@ -24,6 +24,8 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:io' show Platform;
 import 'package:movisens_flutter/movisens_flutter.dart';
+import 'package:faros_plugin/faros.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:openmhealth_schemas/openmhealth_schemas.dart' as omh;
 import 'package:permission_handler/permission_handler.dart';
@@ -32,10 +34,10 @@ import 'package:carp_serializable/carp_serializable.dart';
 import 'package:carp_core/carp_core.dart';
 import 'package:carp_mobile_sensing/carp_mobile_sensing.dart';
 
-part 'movisens_datum.dart';
+part 'faros_datum.dart';
 //part 'faros_data_object.dart';
 part 'movisens_probe.dart';
-part "carp_movisens_package.g.dart";
+// part "carp_movisens_package.g.dart";
 part "carp_faros_package.g.dart";
 part 'movisens_transformers.dart';
 part 'movisens_device_manager.dart';

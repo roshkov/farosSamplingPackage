@@ -6,14 +6,13 @@ part of carp_movisens_package;
 // JsonSerializableGenerator
 // **************************************************************************
 
-MovisensDatum _$MovisensDatumFromJson(Map<String, dynamic> json) =>
-    MovisensDatum()
-      ..id = json['id'] as String?
-      ..timestamp = DateTime.parse(json['timestamp'] as String)
-      ..movisensTimestamp = json['movisens_timestamp'] as String?
-      ..movisensDeviceName = json['movisens_device_name'] as String?;
+FarosDatum _$FarosDatumFromJson(Map<String, dynamic> json) => FarosDatum()
+  ..id = json['id'] as String?
+  ..timestamp = DateTime.parse(json['timestamp'] as String)
+  ..movisensTimestamp = json['movisens_timestamp'] as String?
+  ..movisensDeviceName = json['movisens_device_name'] as String?;
 
-Map<String, dynamic> _$MovisensDatumToJson(MovisensDatum instance) {
+Map<String, dynamic> _$FarosDatumToJson(FarosDatum instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -26,33 +25,6 @@ Map<String, dynamic> _$MovisensDatumToJson(MovisensDatum instance) {
   val['timestamp'] = instance.timestamp.toIso8601String();
   writeNotNull('movisens_timestamp', instance.movisensTimestamp);
   writeNotNull('movisens_device_name', instance.movisensDeviceName);
-  return val;
-}
-
-MovisensBodyPositionDatumC _$MovisensBodyPositionDatumCFromJson(
-        Map<String, dynamic> json) =>
-    MovisensBodyPositionDatumC()
-      ..id = json['id'] as String?
-      ..timestamp = DateTime.parse(json['timestamp'] as String)
-      ..movisensTimestamp = json['movisens_timestamp'] as String?
-      ..movisensDeviceName = json['movisens_device_name'] as String?
-      ..bodyPosition = json['body_position'] as String?;
-
-Map<String, dynamic> _$MovisensBodyPositionDatumCToJson(
-    MovisensBodyPositionDatumC instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('id', instance.id);
-  val['timestamp'] = instance.timestamp.toIso8601String();
-  writeNotNull('movisens_timestamp', instance.movisensTimestamp);
-  writeNotNull('movisens_device_name', instance.movisensDeviceName);
-  writeNotNull('body_position', instance.bodyPosition);
   return val;
 }
 
@@ -90,7 +62,8 @@ FarosAccelometerDatum _$FarosAccelometerDatumFromJson(
       ..timestamp = DateTime.parse(json['timestamp'] as String)
       ..movisensTimestamp = json['movisens_timestamp'] as String?
       ..movisensDeviceName = json['movisens_device_name'] as String?
-      ..hr = json['hr'] as String?;
+      ..data = (json['data'] as List<dynamic>?)?.map((e) => e as int).toList()
+      ..dataType = json['data_type'] as String?;
 
 Map<String, dynamic> _$FarosAccelometerDatumToJson(
     FarosAccelometerDatum instance) {
@@ -106,7 +79,8 @@ Map<String, dynamic> _$FarosAccelometerDatumToJson(
   val['timestamp'] = instance.timestamp.toIso8601String();
   writeNotNull('movisens_timestamp', instance.movisensTimestamp);
   writeNotNull('movisens_device_name', instance.movisensDeviceName);
-  writeNotNull('hr', instance.hr);
+  writeNotNull('data', instance.data);
+  writeNotNull('data_type', instance.dataType);
   return val;
 }
 

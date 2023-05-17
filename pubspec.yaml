@@ -20,7 +20,8 @@ dependencies:
   movisens_flutter: ^0.2.0
   convert: ^3.0.1
   openmhealth_schemas: ^0.2.1+1
-  
+  faros_plugin:
+    path: ..\plugins\myFirstPlugin\faros_plugin
 
 
 # Overriding carp libraries to use the local copy
