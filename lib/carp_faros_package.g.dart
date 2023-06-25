@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of carp_movisens_package;
+part of faros__package;
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -55,9 +55,9 @@ Map<String, dynamic> _$FarosEcgDatumToJson(FarosEcgDatum instance) {
   return val;
 }
 
-FarosAccelometerDatum _$FarosAccelometerDatumFromJson(
+FarosAccelerometerDatum _$FarosAccelerometerDatumFromJson(
         Map<String, dynamic> json) =>
-    FarosAccelometerDatum()
+    FarosAccelerometerDatum()
       ..id = json['id'] as String?
       ..timestamp = DateTime.parse(json['timestamp'] as String)
       ..movisensTimestamp = json['movisens_timestamp'] as String?
@@ -65,8 +65,8 @@ FarosAccelometerDatum _$FarosAccelometerDatumFromJson(
       ..data = (json['data'] as List<dynamic>?)?.map((e) => e as int).toList()
       ..dataType = json['data_type'] as String?;
 
-Map<String, dynamic> _$FarosAccelometerDatumToJson(
-    FarosAccelometerDatum instance) {
+Map<String, dynamic> _$FarosAccelerometerDatumToJson(
+    FarosAccelerometerDatum instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -88,11 +88,8 @@ FarosDevice _$FarosDeviceFromJson(Map<String, dynamic> json) => FarosDevice(
       roleName: json['roleName'] as String?,
       address: json['address'] as String,
       sensorName: json['sensorName'] as String,
-      sensorLocation: $enumDecodeNullable(
-              _$SensorLocationEnumMap, json['sensorLocation']) ??
-          SensorLocation.chest,
-      gender:
-          $enumDecodeNullable(_$GenderEnumMap, json['gender']) ?? Gender.male,
+      sensorLocation: json['sensorLocation'] as String? ?? "chest",
+      gender: json['gender'] as String? ?? "male",
       height: json['height'] as int? ?? 178,
       weight: json['weight'] as int? ?? 78,
       age: json['age'] as int? ?? 25,
@@ -124,29 +121,10 @@ Map<String, dynamic> _$FarosDeviceToJson(FarosDevice instance) {
   val['samplingConfiguration'] = instance.samplingConfiguration;
   val['address'] = instance.address;
   val['sensorName'] = instance.sensorName;
-  val['sensorLocation'] = _$SensorLocationEnumMap[instance.sensorLocation]!;
+  val['sensorLocation'] = instance.sensorLocation;
   val['weight'] = instance.weight;
   val['height'] = instance.height;
   val['age'] = instance.age;
-  val['gender'] = _$GenderEnumMap[instance.gender]!;
+  val['gender'] = instance.gender;
   return val;
 }
-
-const _$SensorLocationEnumMap = {
-  SensorLocation.left_ankle: 'left_ankle',
-  SensorLocation.left_hip: 'left_hip',
-  SensorLocation.left_thigh: 'left_thigh',
-  SensorLocation.left_upper_arm: 'left_upper_arm',
-  SensorLocation.left_wrist: 'left_wrist',
-  SensorLocation.right_ankle: 'right_ankle',
-  SensorLocation.right_hip: 'right_hip',
-  SensorLocation.right_thigh: 'right_thigh',
-  SensorLocation.right_upper_arm: 'right_upper_arm',
-  SensorLocation.right_wrist: 'right_wrist',
-  SensorLocation.chest: 'chest',
-};
-
-const _$GenderEnumMap = {
-  Gender.male: 'male',
-  Gender.female: 'female',
-};

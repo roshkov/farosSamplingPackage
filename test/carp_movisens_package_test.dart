@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:movisens_flutter/movisens_flutter.dart';
-import 'package:carp_movisens_package/carp_faros_package.dart';
+import 'package:faros__package/carp_faros_package.dart';
 import 'package:test/test.dart';
 
 import 'package:carp_serializable/carp_serializable.dart';

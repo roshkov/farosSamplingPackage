@@ -1,4 +1,4 @@
-name: carp_movisens_package_example
+name: faros__package_example
 description: Examples of how to use the CANS Movisens Package.
 version: 0.40.0
 publish_to: none
@@ -14,7 +14,7 @@ dependencies:
   #   path: ../../../carp_core
   # carp_mobile_sensing:
   #   path: ../../../carp_mobile_sensing
-  carp_movisens_package:
+  faros_package:
     path: ../
 
 dev_dependencies:

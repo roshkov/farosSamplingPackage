@@ -24,7 +24,7 @@
  * Use of this source code is governed by a MIT-style license that can be
  * found in the LICENSE file.
  */
-part of carp_movisens_package;
+part of faros__package;
 
 /// An abstract Datum for all Movisens data points.
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
@@ -51,8 +51,8 @@ class FarosDatum extends Datum {
       datum = FarosEcgDatum.fromMap(data.toString());
     }
 
-    if (dataType == 'accelometer') {
-      datum = FarosAccelometerDatum.fromMap(data);
+    if (dataType == 'accelerometer') {
+      datum = FarosAccelerometerDatum.fromMap(data);
     }
 
     // if (map.containsKey("MovementAcceleration")) {
@@ -140,9 +140,9 @@ class FarosEcgDatum extends FarosDatum {
   Map<String, dynamic> toJson() => _$FarosEcgDatumToJson(this);
 }
 
-// accelometer
+// accelerometer
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-class FarosAccelometerDatum extends FarosDatum {
+class FarosAccelerometerDatum extends FarosDatum {
   @override
   DataFormat get format =>
       DataFormat.fromString(FarosSamplingPackage.ACCELOMETER);
@@ -150,9 +150,9 @@ class FarosAccelometerDatum extends FarosDatum {
   List<int>? data;
   String? dataType;
 
-  FarosAccelometerDatum() : super();
+  FarosAccelerometerDatum() : super();
 
-  FarosAccelometerDatum.fromMap(Map<Object?, Object?> map) {
+  FarosAccelerometerDatum.fromMap(Map<Object?, Object?> map) {
     //final data = jsonDecode(value);
     var data = map['data'] as Map;
     dataType = map['dataType'] as String;
@@ -163,8 +163,8 @@ class FarosAccelometerDatum extends FarosDatum {
     });
   }
 
-  factory FarosAccelometerDatum.fromJson(Map<String, dynamic> json) =>
-      _$FarosAccelometerDatumFromJson(json);
+  factory FarosAccelerometerDatum.fromJson(Map<String, dynamic> json) =>
+      _$FarosAccelerometerDatumFromJson(json);
   @override
-  Map<String, dynamic> toJson() => _$FarosAccelometerDatumToJson(this);
+  Map<String, dynamic> toJson() => _$FarosAccelerometerDatumToJson(this);
 }

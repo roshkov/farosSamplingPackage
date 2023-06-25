@@ -9,7 +9,7 @@ This packages supports sampling of the following [`Measure`](https://pub.dev/doc
 See the [wiki](https://github.com/cph-cachet/carp.sensing-flutter/wiki) for further documentation, particularly on available [measure types](https://github.com/cph-cachet/carp.sensing-flutter/wiki/A.-Measure-Types).
 See the [CARP Mobile Sensing App](https://github.com/cph-cachet/carp.sensing-flutter/tree/master/apps/carp_mobile_sensing_app) for an example of how to build a mobile sensing app in Flutter.
 
-When running, the `MovisensProbe` in this package returns different [`MovisensDatum`](https://pub.dev/documentation/carp_movisens_package/latest/movisens/MovisensDatum-class.html) formats (note that the package defines its own namespace of `dk.cachet.carp.movisens`):
+When running, the `MovisensProbe` in this package returns different [`MovisensDatum`](https://pub.dev/documentation/faros__package/latest/movisens/MovisensDatum-class.html) formats (note that the package defines its own namespace of `dk.cachet.carp.movisens`):
 
 * `dk.cachet.carp.movisens.met_level`
 * `dk.cachet.carp.movisens.met`
@@ -37,7 +37,7 @@ this package only works together with `carp_mobile_sensing`.
 dependencies:
   carp_core: ^latest
   carp_mobile_sensing: ^latest
-  carp_movisens_package: ^latest
+  faros__package: ^latest
   ...
 `````
 

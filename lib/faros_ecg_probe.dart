@@ -1,13 +1,13 @@
-// part of carp_movisens_package;
+// part of faros__package;
 
-// /// A probe collecting data from the Movisens device using a [StreamProbe].
+// // /// A probe collecting data from the Movisens device using a [StreamProbe].
 // class MovisensProbe extends StreamProbe {
 //   @override
 //   FarosDeviceManager get deviceManager =>
 //       super.deviceManager as FarosDeviceManager;
 
 //   @override
-//   Stream<MovisensDatum> get stream async* {
+//   Stream<FarosDatum> get stream async* {
 //     while (true) {
 //       await Future.delayed(Duration(seconds: 1));
 //       MovisensDatum datum = MovisensHRDatum()
@@ -20,25 +20,31 @@
 //   }
 // }
 
-/*
- * Copyright 2019-2021 Copenhagen Center for Health Technology (CACHET) at the
- * Technical University of Denmark (DTU).
- * Use of this source code is governed by a MIT-style license that can be
- * found in the LICENSE file.
- */
-part of carp_movisens_package;
+part of faros__package;
 
 /// The [Movisens] device handler.
 /// Only available after the [MovisensProbe] has been initialized.
 // Movisens movisens;
-Faros? faros = Faros();
+// Faros? faros = Faros();
+// late Faros _faros;
+// late UserData userData;
 
 /// User data as specified in the [MovisensMeasure].
 /// Only available after the [MovisensProbe] has been initialized.
-UserData? userData;
+// UserData? userData;
 
 /// return just stream. and in device_manager you listen to it
-class MovisensProbe {
-  Stream<FarosDatum>? get ecgStream =>
-      Faros.ecgStream?.map((event) => FarosDatum.fromMap(event));
+class FarosEcgProbe extends StreamProbe {
+  @override
+  FarosDeviceManager get deviceManager =>
+      super.deviceManager as FarosDeviceManager;
+
+  @override
+  bool onInitialize() {
+    return true;
+  }
+
+  @override
+  Stream<FarosDatum>? get stream => deviceManager._faros?.ecgStream
+      ?.map((event) => FarosDatum.fromMap(event));
 }

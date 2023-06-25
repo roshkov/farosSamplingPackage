@@ -65,13 +65,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.40.13"
-  carp_movisens_package:
-    dependency: "direct main"
-    description:
-      path: ".."
-      relative: true
-    source: path
-    version: "0.40.0"
   carp_serializable:
     dependency: transitive
     description:
@@ -152,6 +145,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+  faros_package:
+    dependency: "direct main"
+    description:
+      path: ".."
+      relative: true
+    source: path
+    version: "0.40.0"
   faros_plugin:
     dependency: transitive
     description:
@@ -305,14 +305,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
-  movisens_flutter:
-    dependency: transitive
-    description:
-      name: movisens_flutter
-      sha256: dbb1627dd43eba87f4a41d84056899b2cad493070dbdab1c3dde70ce38aebea6
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.0"
   openmhealth_schemas:
     dependency: transitive
     description:

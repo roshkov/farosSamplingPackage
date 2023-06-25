@@ -18,12 +18,11 @@
 ///  * movement (accelerometer)
 ///  * battery level of device
 ///  * connectivity status to device
-library carp_movisens_package;
+library faros__package;
 
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io' show Platform;
-import 'package:movisens_flutter/movisens_flutter.dart';
 import 'package:faros_plugin/faros.dart';
 
 import 'package:json_annotation/json_annotation.dart';
@@ -35,35 +34,28 @@ import 'package:carp_core/carp_core.dart';
 import 'package:carp_mobile_sensing/carp_mobile_sensing.dart';
 
 part 'faros_datum.dart';
-//part 'faros_data_object.dart';
-part 'movisens_probe.dart';
-// part "carp_movisens_package.g.dart";
+part 'faros_ecg_probe.dart';
+part 'faros_accelerometer_probe.dart';
 part "carp_faros_package.g.dart";
-part 'movisens_transformers.dart';
-part 'movisens_device_manager.dart';
+part 'faros_device_manager.dart';
 
 /// The Movisens sampling package
 ///
 /// To use this package, register it in the [carp_mobile_sensing] package using
 ///
 /// ```
-///   SamplingPackageRegistry.register(MovisensSamplingPackage());
+///   SamplingPackageRegistry.register(FarosSamplingPackage());
 /// ```
 class FarosSamplingPackage implements SamplingPackage {
-  /// Measure type for continous collection of Movisens data from a Movisens device.
-  ///  * Event-based measure.
   ///  * Uses the [FarosDevice] connected device for data collection.
-  ///  * No sampling configuration needed.
   static const String FAROS = "${NameSpace.CARP}.faros";
 
   static const String FAROS_NAMESPACE = "${NameSpace.CARP}.faros";
-  static const String HR = "$FAROS_NAMESPACE.hr";
-  static const String HRV = "$FAROS_NAMESPACE.hrv";
-  static const String IS_HRV_VALID = "$FAROS_NAMESPACE.is_hrv_valid";
-  static const String BATTERY_LEVEL = "$FAROS_NAMESPACE.battery_level";
-  static const String CONNECTION_STATUS = "$FAROS_NAMESPACE.connection_status";
+  // static const String HR = "$FAROS_NAMESPACE.hr";
+  // static const String BATTERY_LEVEL = "$FAROS_NAMESPACE.battery_level";
+  // static const String CONNECTION_STATUS = "$FAROS_NAMESPACE.connection_status";
   static const String ECG = "$FAROS_NAMESPACE.ecg";
-  static const String ACCELOMETER = "$FAROS_NAMESPACE.accelometer";
+  static const String ACCELOMETER = "$FAROS_NAMESPACE.accelerometer";
 
   final DeviceManager _deviceManager = FarosDeviceManager();
 
@@ -74,10 +66,10 @@ class FarosSamplingPackage implements SamplingPackage {
 
     // registering the transformers from CARP to OMH and FHIR for heart rate and step count.
     // we assume that there are OMH and FHIR schemas created and registrered already...
-    TransformerSchemaRegistry().lookup(NameSpace.OMH)!.add(
-          HR,
-          OMHHeartRateDataPoint.transformer,
-        );
+    // TransformerSchemaRegistry().lookup(NameSpace.OMH)!.add(
+    //       HR,
+    //       OMHHeartRateDataPoint.transformer,
+    //     );
   }
 
   @override
@@ -89,13 +81,37 @@ class FarosSamplingPackage implements SamplingPackage {
   @override
   List<Permission> get permissions => []; // no special permissions needed
 
-  /// Create a [MovisensProbe]. Only available on Android.
+  /// Create a [FarosEcgProbe]. Only available on Android.
+  // @override
+  // Probe? create(String type) {
+
+  //  switch (type) {
+  //   case: FAROS:
+  //     return FarosEcgProbe();
+  //     default:
+  //     return null;
+  //  }
+  //   // (Platform.isAndroid)
+  //   //   ? (type == FAROS)
+  //   //       ? FarosEcgProbe()
+  //   //       // : null //CHANGE BACK AFTER TEST
+  //   //       : FarosEcgProbe()
+  //   //   : null;
+  // }
+
   @override
-  Probe? create(String type) => (Platform.isAndroid)
-      ? (type == FAROS)
-          ? MovisensProbe()
-          : null
-      : null;
+  Probe? create(String type) {
+    switch (type) {
+      case 'FAROSECG':
+        print("ecg probe created");
+        return FarosEcgProbe();
+      case 'FAROSACCELOMETER':
+        return FarosAccelerometerProbe();
+      default:
+        print("no probe created");
+        return null;
+    }
+  }
 
   @override
   List<String> get dataTypes => [FAROS];
